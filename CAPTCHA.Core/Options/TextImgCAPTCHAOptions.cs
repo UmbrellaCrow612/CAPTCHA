@@ -1,4 +1,5 @@
-﻿using System.Drawing.Imaging;
+﻿using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace CAPTCHA.Core.Options
 {
@@ -34,5 +35,20 @@ namespace CAPTCHA.Core.Options
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public ImageFormat ImageFormat { get; set; } = ImageFormat.Png;
 
+        /// <summary>
+        /// The background color of the CAPTCHA image
+        /// </summary>
+        public Color BackgroundColorOfImage { get; set; } = Color.Gray;
+
+        /// <summary>
+        /// Color used to draw the text onto the img with
+        /// </summary>
+        public Color CaptchaTextColor { get; set; } = Color.Black;
+
+        /// <summary>
+        /// The style of the font that the text drawn on the CAPTCHA will have , it's font family and size
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        public Font CaptchaTextFontStyle { get; set; } = new Font(FontFamily.GenericSerif, 20);
     }
 }

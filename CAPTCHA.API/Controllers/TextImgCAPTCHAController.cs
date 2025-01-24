@@ -19,7 +19,7 @@ namespace CAPTCHA.API.Controllers
             // add to redis cache
             // key = result.Value.Id value = result.Value.AnswerInPlainText
 
-            return Ok(new {result.CAPTCHA.Id, result.CAPTCHA.ImageBytes });
+            return Ok(result.CAPTCHA.ImageBytes);
         }
 
         [HttpPost]
