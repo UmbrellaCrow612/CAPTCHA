@@ -39,19 +39,31 @@ namespace CAPTCHA.Core.Services
         {
             int countOfSlices = s.Length;
             int widthOfASlice = (int)o.WidthOfImage / countOfSlices;
+            Random random = new();
 
             for (int i = 0; i < countOfSlices; i++)
             {
                 int x = i * widthOfASlice;
                 var r = new Rectangle(x, 0, widthOfASlice, (int)o.HeightOfImage);
                 string letter = s[i].ToString();
-                SizeF letterSize = g.MeasureString(letter, o.CaptchaTextFontStyle);
-                PointF letterPosition = new(
-                    r.Left + (r.Width - letterSize.Width) / 2,
-                    r.Top + (r.Height - letterSize.Height) / 2
-                );
 
-                g.DrawString(letter, o.CaptchaTextFontStyle, b, letterPosition);
+                float fontSize = random.Next(20, 36);
+                using Font font = new(o.CaptchaTextFontStyle.FontFamily, fontSize, o.CaptchaTextFontStyle.Style);
+
+                SizeF letterSize = g.MeasureString(letter, font);
+
+                float posX = r.Left + random.Next(0, Math.Max(0, (int)(r.Width - letterSize.Width)));
+                float posY = r.Top + random.Next(0, Math.Max(0, (int)(r.Height - letterSize.Height)));
+                PointF letterPosition = new(posX, posY);
+           
+                float angle = random.Next(0, 2) == 0 ? -45 : 45; 
+                g.TranslateTransform(letterPosition.X + letterSize.Width / 2, letterPosition.Y + letterSize.Height / 2);
+                g.RotateTransform(angle);
+                g.TranslateTransform(-(letterPosition.X + letterSize.Width / 2), -(letterPosition.Y + letterSize.Height / 2));
+
+                g.DrawString(letter, font, b, letterPosition);
+
+                g.ResetTransform();
             }
         }
     }
