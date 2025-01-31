@@ -50,5 +50,15 @@ namespace CAPTCHA.Core.Options
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public Font CaptchaTextFontStyle { get; set; } = new Font(FontFamily.GenericSerif, 20);
+
+        /// <summary>
+        /// olor used to draw the waves
+        /// </summary>
+        public Color WaveColor {  get; set; } = Color.DarkGray;
+
+        /// <summary>
+        /// Amount of waves to draw on the img
+        /// </summary>
+        public uint WaveCount { get; set; } = 10;
     }
 }

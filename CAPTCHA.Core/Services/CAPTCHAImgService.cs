@@ -1,6 +1,7 @@
 ﻿using CAPTCHA.Core.Models;
 using CAPTCHA.Core.Options;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 
 namespace CAPTCHA.Core.Services
 {
@@ -15,12 +16,8 @@ namespace CAPTCHA.Core.Services
 
             DrawBackgroundColor(graphics, options.BackgroundColorOfImage);
             DrawText(_.AnswerInPlainText, options, graphics, brush);
-     
-            // Add other secuirty layer 
-            // lines 
-            // dots 
-            // shapes 
-            // other stuff
+            DrawWaves(graphics, options);
+            AddNoise(graphics, options);
 
             using MemoryStream memoryStream = new();
             bitmap.Save(memoryStream, options.ImageFormat);
@@ -64,6 +61,75 @@ namespace CAPTCHA.Core.Services
                 g.DrawString(letter, font, b, letterPosition);
 
                 g.ResetTransform();
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        private static void DrawWaves(Graphics graphics, TextImgCAPTCHAOptions o)
+        {
+            using Pen wavePen = new(o.WaveColor, 2); // Adjust the pen width as needed
+            Random random = new();
+
+            for (int i = 0; i < o.WaveCount; i++)
+            {
+                // Calculate the Y position for the wave
+                int y = random.Next(0, (int)o.HeightOfImage);
+
+                // Create a GraphicsPath to draw the wave
+                using GraphicsPath path = new();
+
+                // Start the wave at the left side of the image
+                path.StartFigure();
+                path.AddLine(0, y, 50, y); // Start with a straight line
+
+                // Add Bézier curves to create the wave effect
+                for (int x = 50; x < (int)o.WidthOfImage; x += 100)
+                {
+                    int controlY1 = y + random.Next(-20, 20); // Randomize the control points for a natural wave
+                    int controlY2 = y + random.Next(-20, 20);
+                    int endY = y + random.Next(-10, 10);
+
+                    path.AddBezier(
+                        x, y,                     // Start point
+                        x + 25, controlY1,        // Control point 1
+                        x + 75, controlY2,        // Control point 2
+                        x + 100, endY             // End point
+                    );
+
+                    y = endY; // Update the Y position for the next segment
+                }
+
+                // Draw the wave
+                graphics.DrawPath(wavePen, path);
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        private static void AddNoise(Graphics graphics, TextImgCAPTCHAOptions options)
+        {
+            Random random = new();
+
+            // Add random dots
+            using var dotBrush = new SolidBrush(options.WaveColor);
+            int numberOfDots = random.Next(50, 100);
+            for (int i = 0; i < numberOfDots; i++)
+            {
+                float x = random.Next(0, (int)options.WidthOfImage);
+                float y = random.Next(0, (int)options.HeightOfImage);
+                graphics.FillEllipse(dotBrush, x, y, 2, 2);
+            }
+
+            // Add salt and pepper noise
+            int noisePixels = ((int)options.WidthOfImage * (int)options.HeightOfImage) / 50; // 2% of pixels
+            using var pixelBrush = new SolidBrush(Color.FromArgb(random.Next(0, 255),
+                random.Next(0, 255),
+                random.Next(0, 255)));
+
+            for (int i = 0; i < noisePixels; i++)
+            {
+                float x = random.Next(0, (int)options.WidthOfImage);
+                float y = random.Next(0, (int)options.HeightOfImage);
+                graphics.FillRectangle(pixelBrush, x, y, 1, 1);
             }
         }
     }
