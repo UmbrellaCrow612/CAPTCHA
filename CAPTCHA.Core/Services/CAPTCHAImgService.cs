@@ -14,7 +14,24 @@ namespace CAPTCHA.Core.Services
             using SolidBrush brush = new(options.CaptchaTextColor);
 
             DrawBackgroundColor(graphics, options.BackgroundColorOfImage);
-            DrawText(graphics, _.AnswerInPlainText, options.CaptchaTextFontStyle, brush, new PointF(10, 10));
+
+            int countOfSlices = _.AnswerInPlainText.Length;
+            int widthOfASlice = (int)options.WidthOfImage / countOfSlices;
+
+            for (int i = 0; i < countOfSlices; i++)
+            {
+                int x = i * widthOfASlice;
+                var r = new Rectangle(x, 0, widthOfASlice, (int)options.HeightOfImage);
+                string letter = _.AnswerInPlainText[i].ToString();
+                SizeF letterSize = graphics.MeasureString(letter, options.CaptchaTextFontStyle);
+                PointF letterPosition = new PointF(
+                    r.Left + (r.Width - letterSize.Width) / 2,
+                    r.Top + (r.Height - letterSize.Height) / 2
+                );
+
+                graphics.DrawString(letter,options.CaptchaTextFontStyle, brush, letterPosition );
+            }
+
             // Add other secuirty layer 
             // lines 
             // dots 
@@ -31,13 +48,6 @@ namespace CAPTCHA.Core.Services
         private static void DrawBackgroundColor(Graphics graphics, Color color)
         {
             graphics.Clear(color);
-        }
-
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
-        private static void DrawText(Graphics graphics, string text, Font font, Brush brush, PointF pointF)
-        {
-            graphics.DrawString(text, font, brush, pointF); // distort and fuzz etc
         }
     }
 }

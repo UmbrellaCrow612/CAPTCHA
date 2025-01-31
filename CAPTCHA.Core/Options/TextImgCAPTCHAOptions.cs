@@ -22,12 +22,12 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// The width of the CAPTCHA image
         /// </summary>
-        public uint WidthOfImage { get; set; } = 200;
+        public uint WidthOfImage { get; set; } = 350;
 
         /// <summary>
         /// The height of the CAPTCHA image
         /// </summary>
-        public uint HeightOfImage { get; set; } = 50;
+        public uint HeightOfImage { get; set; } = 150;
 
         /// <summary>
         /// The format the image will be sent as to the client
