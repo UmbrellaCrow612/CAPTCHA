@@ -16,10 +16,11 @@ namespace CAPTCHA.API.Controllers
             var result = service.GenerateQuestion();
             if(!result.IsSuccess) return BadRequest(result.Errors);
 
-            // add to redis cache
-            // key = result.Value.Id value = result.Value.AnswerInPlainText
+            var fileResult = File(result.CAPTCHA.ImageBytes, "image/png");
 
-            return Ok(result.CAPTCHA.ImageBytes);
+            Response.Headers["X-Captcha-Id"] = result.CAPTCHA.Id;
+
+            return fileResult;
         }
 
         [HttpPost]

@@ -54,11 +54,11 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// olor used to draw the waves
         /// </summary>
-        public Color WaveColor {  get; set; } = Color.DarkGray;
+        public Color WaveColor {  get; set; } = Color.DarkKhaki;
 
         /// <summary>
         /// Amount of waves to draw on the img
         /// </summary>
-        public uint WaveCount { get; set; } = 10;
+        public uint WaveCount { get; set; } = 1;
     }
 }
