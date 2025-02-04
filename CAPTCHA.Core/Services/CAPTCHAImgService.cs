@@ -8,16 +8,17 @@ namespace CAPTCHA.Core.Services
     internal class CAPTCHAImgService
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
-        public static byte[] GenerateImg(TextImgCAPTCHA _, TextImgCAPTCHAOptions options)
+        public static byte[] GenerateImg(TextImgCAPTCHA captcha, TextImgCAPTCHAOptions options)
         {
             using Bitmap bitmap = new((int)options.WidthOfImage, (int)options.HeightOfImage);
             using Graphics graphics = Graphics.FromImage(bitmap);
             using SolidBrush brush = new(options.CaptchaTextColor);
 
             DrawBackgroundColor(graphics, options.BackgroundColorOfImage);
-            DrawText(_.AnswerInPlainText, options, graphics, brush);
+            DrawText(captcha.AnswerInPlainText, options, graphics, brush);
+            AddSmallTextNoise(graphics, options);
             DrawWaves(graphics, options);
-            AddNoise(graphics, options);
+            AddStaticNoise(graphics, options);
 
             using MemoryStream memoryStream = new();
             bitmap.Save(memoryStream, options.ImageFormat);
@@ -45,7 +46,9 @@ namespace CAPTCHA.Core.Services
                 string letter = s[i].ToString();
 
                 float fontSize = random.Next(20, 36);
-                using Font font = new(o.CaptchaTextFontStyle.FontFamily, fontSize, o.CaptchaTextFontStyle.Style);
+                FontFamily[] fonts = [FontFamily.GenericMonospace, FontFamily.GenericSansSerif, FontFamily.GenericMonospace];
+
+                using Font font = new(fonts[random.Next(0, fonts.Length)], fontSize, o.CaptchaTextFontStyle.Style);
 
                 SizeF letterSize = g.MeasureString(letter, font);
 
@@ -105,7 +108,7 @@ namespace CAPTCHA.Core.Services
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
-        private static void AddNoise(Graphics graphics, TextImgCAPTCHAOptions options)
+        private static void AddStaticNoise(Graphics graphics, TextImgCAPTCHAOptions options)
         {
             Random random = new();
 
@@ -130,6 +133,34 @@ namespace CAPTCHA.Core.Services
                 float x = random.Next(0, (int)options.WidthOfImage);
                 float y = random.Next(0, (int)options.HeightOfImage);
                 graphics.FillRectangle(pixelBrush, x, y, 1, 1);
+            }
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        private static void AddSmallTextNoise(Graphics graphics, TextImgCAPTCHAOptions options)
+        {
+            string letters = options.SmallTextNoiseOptions.CharacterSet.ToString()!;
+            var random = new Random();
+            var height = (int)options.HeightOfImage;
+            var width = (int)options.WidthOfImage;
+            var brush = new SolidBrush(options.SmallTextNoiseOptions.ColorOfText);
+
+            for (int i = 0; i < options.SmallTextNoiseOptions.NumberOfLinesDrawns; i++)
+            {
+                var characterToDraw = letters[random.Next(0, letters.Length)];
+                var startPointHeight = random.Next(0, height);
+
+                for (int x = 0; x < width; x += (int)options.SmallTextNoiseOptions.SpaceBetweenEachLetter)
+                {
+                    using Font font = new(options.SmallTextNoiseOptions.Font.FontFamily, 10, options.SmallTextNoiseOptions.Font.Style);
+                    graphics.DrawString(
+                        characterToDraw.ToString(),
+                        font,
+                        brush,
+                        x,
+                        startPointHeight
+                    );
+                }
             }
         }
     }

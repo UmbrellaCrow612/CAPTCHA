@@ -59,6 +59,42 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// Amount of waves to draw on the img
         /// </summary>
-        public uint WaveCount { get; set; } = 1;
+        public uint WaveCount { get; set; } = 7;
+
+        /// <summary>
+        /// Draw some small text across the captcha seperate than the main text to be shown and read, this is for security 
+        /// </summary>
+        public SmallTextNoiseOptions SmallTextNoiseOptions { get; set; } = new();
+
+
+    }
+
+    public class SmallTextNoiseOptions
+    {
+        /// <summary>
+        /// Characters to use
+        /// </summary>
+        public HashSet<char> CharacterSet { get; set; } = ['A', 'B', 'C'];
+
+        /// <summary>
+        /// Number of lines to draw
+        /// </summary>
+        public uint NumberOfLinesDrawns { get; set; } = 4;
+
+        /// <summary>
+        /// Space between each letter when drawn i a line - these are betwene each letter in the same line
+        /// </summary>
+        public uint SpaceBetweenEachLetter { get; set; } = 10;
+
+        /// <summary>
+        /// Each letters font
+        /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        public Font Font {  get; set; } = new(FontFamily.GenericMonospace, 10, FontStyle.Regular);
+
+        /// <summary>
+        /// Each letters colors
+        /// </summary>
+        public Color ColorOfText { get; set; } = Color.DarkOliveGreen;
     }
 }
