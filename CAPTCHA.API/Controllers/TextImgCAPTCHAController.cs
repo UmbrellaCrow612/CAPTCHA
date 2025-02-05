@@ -1,4 +1,5 @@
 ﻿using CAPTCHA.API.DTOs;
+using CAPTCHA.Core.Options;
 using CAPTCHA.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +17,7 @@ namespace CAPTCHA.API.Controllers
             var result = service.GenerateQuestion();
             if(!result.IsSuccess) return BadRequest(result.Errors);
 
-            var fileResult = File(result.CAPTCHA.ImageBytes, "image/png");
+            var fileResult = File(result.CAPTCHA.ImageBytes, service.defaultOptions.ImageFormatOverTheWire);
 
             Response.Headers["X-Captcha-Id"] = result.CAPTCHA.Id;
 

@@ -17,20 +17,20 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// The time in minutes when the CAPTCHA expires or is considred invalid
         /// </summary>
-        public double ExpiresAtInMinutes { get; set; } = 2;
+        public double ExpiresAtInMinutes { get; set; } = 3;
 
         /// <summary>
         /// The width of the CAPTCHA image
         /// </summary>
-        public uint WidthOfImage { get; set; } = 350;
+        public uint WidthOfImage { get; set; } = 300;  
 
         /// <summary>
         /// The height of the CAPTCHA image
         /// </summary>
-        public uint HeightOfImage { get; set; } = 150;
+        public uint HeightOfImage { get; set; } = 120; 
 
         /// <summary>
-        /// The format the image will be sent as to the client
+        /// The format the image will be created as. Note it it could be diffrent to <see cref="ImageFormatOverTheWire"/>
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public ImageFormat ImageFormat { get; set; } = ImageFormat.Png;
@@ -38,35 +38,39 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// The background color of the CAPTCHA image
         /// </summary>
-        public Color BackgroundColorOfImage { get; set; } = Color.Gray;
+        public Color BackgroundColorOfImage { get; set; } = Color.LightGray;  
 
         /// <summary>
         /// Color used to draw the text onto the img with
         /// </summary>
-        public Color CaptchaTextColor { get; set; } = Color.Black;
+        public Color CaptchaTextColor { get; set; } = Color.DarkBlue;  
 
         /// <summary>
-        /// The style of the font that the text drawn on the CAPTCHA will have , it's font family and size
+        /// The style of the font that the text drawn on the CAPTCHA will have, it's font family and size
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
-        public Font CaptchaTextFontStyle { get; set; } = new Font(FontFamily.GenericSerif, 20);
+        public Font CaptchaTextFontStyle { get; set; } = new Font(FontFamily.GenericSansSerif, 22, FontStyle.Bold); 
 
         /// <summary>
-        /// olor used to draw the waves
+        /// Color used to draw the waves
         /// </summary>
-        public Color WaveColor {  get; set; } = Color.DarkKhaki;
+        public Color WaveColor { get; set; } = Color.CornflowerBlue;  
 
         /// <summary>
         /// Amount of waves to draw on the img
         /// </summary>
-        public uint WaveCount { get; set; } = 7;
+        public uint WaveCount { get; set; } = 6;  
 
         /// <summary>
-        /// Draw some small text across the captcha seperate than the main text to be shown and read, this is for security 
+        /// Draw some small text across the captcha separate than the main text to be shown and read, this is for security 
         /// </summary>
         public SmallTextNoiseOptions SmallTextNoiseOptions { get; set; } = new();
 
-
+        /// <summary>
+        /// Format of the file that is sent over http to the client - can be diffrent than the base CAPTCHA img that it is created as - <see cref="ImageFormat"/> the supported 
+        /// options are in the class <see cref="MimeTypes"/> as they are the default options <see cref="File"/> will support.
+        /// </summary>
+        public string ImageFormatOverTheWire { get; set; } = MimeTypes.Webp;
     }
 
     public class SmallTextNoiseOptions
@@ -74,27 +78,27 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// Characters to use
         /// </summary>
-        public HashSet<char> CharacterSet { get; set; } = ['A', 'B', 'C'];
+        public HashSet<char> CharacterSet { get; set; } = new HashSet<char> { 'A', 'B', 'C', 'D', 'E' }; 
 
         /// <summary>
         /// Number of lines to draw
         /// </summary>
-        public uint NumberOfLinesDrawns { get; set; } = 4;
+        public uint NumberOfLinesDrawns { get; set; } = 6;  
 
         /// <summary>
-        /// Space between each letter when drawn i a line - these are betwene each letter in the same line
+        /// Space between each letter when drawn in a line - these are between each letter in the same line
         /// </summary>
-        public uint SpaceBetweenEachLetter { get; set; } = 10;
+        public uint SpaceBetweenEachLetter { get; set; } = 10;  
 
         /// <summary>
         /// Each letters font
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
-        public Font Font {  get; set; } = new(FontFamily.GenericMonospace, 10, FontStyle.Regular);
+        public Font Font { get; set; } = new(FontFamily.GenericMonospace, 8, FontStyle.Italic); 
 
         /// <summary>
         /// Each letters colors
         /// </summary>
-        public Color ColorOfText { get; set; } = Color.DarkOliveGreen;
+        public Color ColorOfText { get; set; } = Color.SlateGray;  
     }
 }

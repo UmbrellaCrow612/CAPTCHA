@@ -5,7 +5,7 @@ namespace CAPTCHA.Core.Services
 {
     public class TextImgCAPTCHAService
     {
-        private readonly TextImgCAPTCHAOptions defaultOptions = new();
+        public readonly TextImgCAPTCHAOptions defaultOptions = new();
 
         public TextImgCAPTCHAService()
         {
