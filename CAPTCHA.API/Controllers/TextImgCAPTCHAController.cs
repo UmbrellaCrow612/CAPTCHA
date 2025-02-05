@@ -16,7 +16,9 @@ namespace CAPTCHA.API.Controllers
             var result = service.GenerateQuestion();
             if(!result.IsSuccess) return BadRequest(result.Errors);
 
-            var fileResult = File(result.CAPTCHA.ImageBytes, service.defaultOptions.ImageFormatOverTheWire);
+            var fileName = $@"text-captcha-{result.CAPTCHA.Id}";
+
+            var fileResult = File(result.CAPTCHA.ImageBytes, service.defaultOptions.ImageFormatOverTheWire, fileName);
 
             Response.Headers["X-Captcha-Id"] = result.CAPTCHA.Id;
 

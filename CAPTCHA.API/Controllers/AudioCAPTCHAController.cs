@@ -15,8 +15,9 @@ namespace CAPTCHA.API.Controllers
 
             if (!res.IsSucceeded)
                 return BadRequest(res.Errors);
+            var fileName = $@"audio-captcha-{res.CAPTCHA.Id}";
 
-            var fileResult = File(res.CAPTCHA.RawAudioBytes, service.defaultOptions.AudioFileFormatOverTheWire);
+            var fileResult = File(res.CAPTCHA.RawAudioBytes, service.defaultOptions.AudioFileFormatOverTheWire, fileName);
 
             Response.Headers["X-Captcha-Id"] = res.CAPTCHA.Id;
 
