@@ -5,7 +5,7 @@ namespace CAPTCHA.Core.Services
 {
     public class AudioCAPTCHAService
     {
-        private readonly AudioCAPTCHAOptions _options = new();
+        public readonly AudioCAPTCHAOptions defaultOptions = new();
 
         public AudioCAPTCHAService()
         {
@@ -14,7 +14,7 @@ namespace CAPTCHA.Core.Services
 
         public AudioCAPTCHAService(AudioCAPTCHAOptions options)
         {
-            _options = options;
+            defaultOptions = options;
         }
 
 
@@ -24,7 +24,7 @@ namespace CAPTCHA.Core.Services
 
             try
             {
-                var wordsToUse = _options.WordSet.OrderBy(x => Guid.NewGuid().ToString()).Take((int)_options.CountOfWordsUsed).ToList();
+                var wordsToUse = defaultOptions.WordSet.OrderBy(x => Guid.NewGuid().ToString()).Take((int)defaultOptions.CountOfWordsUsed).ToList();
                 string sentence = string.Join(" ", wordsToUse);
 
                 result.CAPTCHA.AnswerInPlainText = sentence;
