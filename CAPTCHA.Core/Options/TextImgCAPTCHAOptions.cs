@@ -70,7 +70,7 @@ namespace CAPTCHA.Core.Options
         /// Format of the file that is sent over http to the client - can be diffrent than the base CAPTCHA img that it is created as - <see cref="ImageFormat"/> the supported 
         /// options are in the class <see cref="MimeTypes"/> as they are the default options <see cref="File"/> will support.
         /// </summary>
-        public string ImageFormatOverTheWire { get; set; } = MimeTypes.Webp;
+        public string ImageFormatOverTheWire { get; set; } = MimeTypes.Png;
     }
 
     public class SmallTextNoiseOptions
