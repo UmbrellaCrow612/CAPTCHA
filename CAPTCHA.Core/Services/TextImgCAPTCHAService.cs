@@ -37,7 +37,7 @@ namespace CAPTCHA.Core.Services
                 // Generate the image as a base64 btye[] with the options
                 try
                 {
-                    var bytes = CAPTCHAImgService.GenerateImg(captcha, defaultOptions);
+                    var bytes = ImgService.GenerateImg(captcha, defaultOptions);
                     captcha.SetImageBytes(bytes);
                 }
                 catch (Exception e)

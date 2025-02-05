@@ -5,7 +5,7 @@ using System.Drawing.Drawing2D;
 
 namespace CAPTCHA.Core.Services
 {
-    internal class CAPTCHAImgService
+    internal class ImgService
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public static byte[] GenerateImg(TextImgCAPTCHA captcha, TextImgCAPTCHAOptions options)
