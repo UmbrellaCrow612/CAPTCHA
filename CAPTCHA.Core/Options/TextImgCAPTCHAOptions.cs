@@ -78,7 +78,7 @@ namespace CAPTCHA.Core.Options
         /// <summary>
         /// Characters to use
         /// </summary>
-        public HashSet<char> CharacterSet { get; set; } = new HashSet<char> { 'A', 'B', 'C', 'D', 'E' }; 
+        public HashSet<char> CharacterSet { get; set; } = ['A', 'B', 'C', 'D', 'E']; 
 
         /// <summary>
         /// Number of lines to draw
