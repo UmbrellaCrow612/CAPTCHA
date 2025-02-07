@@ -25,7 +25,7 @@ namespace CAPTCHA.Core.Services
             try
             {
                 var wordsToUse = defaultOptions.WordSet.OrderBy(x => Guid.NewGuid().ToString()).Take((int)defaultOptions.CountOfWordsUsed).ToList();
-                string sentence = string.Join(" ", wordsToUse);
+                string sentence = string.Join(" ", wordsToUse).ToLower();
 
                 result.CAPTCHA.AnswerInPlainText = sentence;
 

@@ -40,17 +40,17 @@ namespace CAPTCHA.API.Controllers
         public async Task<ActionResult> Post([FromBody] ValidateTextImgCAPTCHAAnswer dto)
         {
             var captcha = await _dbContext.TextImgCAPTCHAs.FindAsync(dto.Id);
-            if (captcha is null) return BadRequest(CreateErrorResponse("Captcha not found"));
+            if (captcha is null) return BadRequest(CreateErrorResponse("NOT_FOUND"));
 
             var a = captcha.Attempts;
-            if (DateTime.UtcNow > captcha.ExpiresAt) return BadRequest(CreateErrorResponse("Captcha expired"));
-            if (a++ > captcha.GetMaxAttempts()) return BadRequest(CreateErrorResponse("Max attempts reach for this captcha"));
-            if (captcha.IsUsed || captcha.UsedAt.HasValue) return BadRequest(CreateErrorResponse("Captcha already used"));
+            if (DateTime.UtcNow > captcha.ExpiresAt) return BadRequest(CreateErrorResponse("EXPIRED"));
+            if (a++ > captcha.GetMaxAttempts()) return BadRequest(CreateErrorResponse("MAX_ATTEMPTS"));
+            if (captcha.IsUsed || captcha.UsedAt.HasValue) return BadRequest(CreateErrorResponse("USED"));
             if (!string.Equals(dto.Answer, captcha.AnswerInPlainText))
             {
                 captcha.Attempts += 1;
                 await _dbContext.SaveChangesAsync();
-                return BadRequest(CreateErrorResponse("Captcha text dose not match"));
+                return BadRequest(CreateErrorResponse("TEXT_DOSE_NOT_MATCH"));
             }
 
             captcha.Attempts += 1;
