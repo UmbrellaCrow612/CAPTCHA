@@ -27,18 +27,14 @@ namespace CAPTCHA.Core.Services
                     .Take(5)
                     .Aggregate("", (acc, c) => acc + c);
 
-                var captcha = new TextImgCAPTCHA
-                {
-                    AnswerInPlainText = textToDisplayInCaptcha,
-                    ExpiresAt = DateTime.UtcNow.AddMinutes(defaultOptions.ExpiresAtInMinutes)
-                };
-                result.CAPTCHA = captcha;
+                result.CAPTCHA.AnswerInPlainText = textToDisplayInCaptcha;
+                result.CAPTCHA.ExpiresAt = DateTime.UtcNow.AddMinutes(defaultOptions.ExpiresAtInMinutes);
 
                 // Generate the image as a base64 btye[] with the options
                 try
                 {
-                    var bytes = ImgService.GenerateImg(captcha, defaultOptions);
-                    captcha.SetImageBytes(bytes);
+                    var bytes = ImgService.GenerateImg(result.CAPTCHA, defaultOptions);
+                    result.CAPTCHA.SetImageBytes(bytes);
                 }
                 catch (Exception e)
                 {
