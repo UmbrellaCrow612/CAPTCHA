@@ -2,11 +2,58 @@
 using CAPTCHA.Core.Options;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 
 namespace CAPTCHA.Core.Services
 {
     internal class ImgService
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        public static byte[] GenerateImg(TileCAPTCHA captcha, TileCAPTCHAOptions options)
+        {
+            using Bitmap bitmap = new(options.WidthOfImage, options.HeightOfImage);
+            var matrixToDraw = captcha.GetMatrix();
+
+            // Calculate the size of each cell based on the image size and matrix dimensions
+            int slice = options.HeightOfImage / matrixToDraw.Count;
+            int ySlice = options.WidthOfImage / matrixToDraw[0].Count;
+
+            // Create a graphics object for drawing on the bitmap
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                g.Clear(Color.White); // Fill the background with white
+
+                // Loop through the matrix and draw each square
+                for (int i = 0; i < matrixToDraw.Count; i++)
+                {
+                    for (int j = 0; j < matrixToDraw[i].Count; j++)
+                    {
+                        // Define the position and size of each square in the grid
+                        int x = j * ySlice;
+                        int y = i * slice;
+                        var rectangle = new Rectangle(x, y, ySlice, slice);
+
+                        // Check the matrix value (0 = white, 1 = blue)
+                        if (matrixToDraw[i][j] == 1)
+                        {
+                            // Draw blue square for 1
+                            g.FillRectangle(Brushes.Blue, rectangle);
+                        }
+
+                        // Draw the black border around each square
+                        g.DrawRectangle(Pens.Black, rectangle);
+                    }
+                }
+            }
+
+            // Convert the bitmap to byte array (you can save it or process it further)
+            using MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, ImageFormat.Png);
+            return ms.ToArray();
+        }
+
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public static byte[] GenerateImg(TextImgCAPTCHA captcha, TextImgCAPTCHAOptions options)
         {

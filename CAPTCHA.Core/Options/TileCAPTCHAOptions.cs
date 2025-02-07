@@ -15,6 +15,16 @@
         /// <summary>
         /// How many tiles will be highlighted in the answer
         /// </summary>
-        public int NumberOfAnswerTiles { get; set; } = 4;
+        public int NumberOfAnswerTiles { get; set; } = 6;
+
+        /// <summary>
+        /// Width of the captcha image
+        /// </summary>
+        public int WidthOfImage { get; set; } = 200;
+
+        /// <summary>
+        /// Height of the captcha image
+        /// </summary>
+        public int HeightOfImage { get; set; } = 150;
     }
 }

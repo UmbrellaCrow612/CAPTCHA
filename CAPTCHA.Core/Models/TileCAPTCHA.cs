@@ -5,9 +5,10 @@
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>
-        /// The target answer they need to achieve. This is done by generating an image with <see cref="Services.ImgService"/>.
+        /// When we make the matrix well make it into a string to store it like [[1,2,3,4],[1,2,3,4],[1,2,3,4]]as a string
         /// </summary>
-        public byte[] AnswerImageBytes { get; set; } = [];
+        public required string AnswerMatrixAsPlainText { get; set; }
+
 
         /// <summary>
         /// The base tiles sent across.
@@ -17,15 +18,30 @@
         /// The front end updates the indices to 1 to represent selected tiles.
         /// To verify the answer, we simply compare the provided matrix against this one.
         /// </remarks>
-        public List<List<int>> Matrix { get; set; } =
-        [
-        ];
+        private List<List<int>> Matrix { get; set; } = [];
+        public void SetMatrix(List<List<int>> matrix)
+        {
+            Matrix = matrix;
+        }
+        public List<List<int>> GetMatrix()
+        {
+            return Matrix;
+        }
 
         /// <summary>
-        /// Checks if the given matrix matches the expected Matrix.
+        /// The target answer they need to achieve. This is done by generating an image with <see cref="Services.ImgService"/>.
         /// </summary>
-        /// <param name="matrix">The user's selected tile matrix.</param>
-        /// <returns>True if the matrices are identical; otherwise, false.</returns>
+        private byte[] AnswerImageBytes = [];
+        public void SetImageBytes(byte[] bytes)
+        {
+            AnswerImageBytes = bytes;
+        }
+        public byte[] GetImageBytes()
+        {
+            return AnswerImageBytes;
+        }
+
+        // Change to matcj how we store it make it a string and just do a string comp
         public bool IsAnswerCorrect(List<List<int>> matrix)
         {
             if (matrix.Count != Matrix.Count || matrix.Any(row => row.Count != Matrix[0].Count))
