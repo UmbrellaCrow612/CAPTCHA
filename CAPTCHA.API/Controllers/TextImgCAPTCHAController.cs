@@ -43,6 +43,7 @@ namespace CAPTCHA.API.Controllers
             if (captcha is null) return BadRequest(CreateErrorResponse("Captcha not found"));
 
             var a = captcha.Attempts;
+            if (DateTime.UtcNow > captcha.ExpiresAt) return BadRequest(CreateErrorResponse("Captcha expired"));
             if (a++ > captcha.GetMaxAttempts()) return BadRequest(CreateErrorResponse("Max attempts reach for this captcha"));
             if (captcha.IsUsed || captcha.UsedAt.HasValue) return BadRequest(CreateErrorResponse("Captcha already used"));
             if (!string.Equals(dto.Answer, captcha.AnswerInPlainText))
