@@ -1,5 +1,6 @@
 ﻿using CAPTCHA.Core.Models;
 using CAPTCHA.Core.Options;
+using System.Collections.Generic;
 
 namespace CAPTCHA.Core.Services
 {
@@ -19,7 +20,7 @@ namespace CAPTCHA.Core.Services
             var result = new TileCAPTCHAServiceResult();
             var baseMatrix = new List<List<int>>();
 
-            // create the matrix
+            // Create the matrix with all zeros
             for (int i = 0; i < DefaultOptions.MatrixColumns; i++)
             {
                 baseMatrix.Add([]);
@@ -28,27 +29,31 @@ namespace CAPTCHA.Core.Services
                     baseMatrix[i].Add(0);
                 }
             }
-            
+
+            var matrixToSendToClient = baseMatrix.Select(row => new List<int>(row)).ToList();
+            result.Matrix = matrixToSendToClient;
+
             // Add colored tiles
+            var random = new Random();
             for (int i = 0; i < DefaultOptions.NumberOfAnswerTiles; i++)
             {
-                var random = new Random();
                 var colIndex = random.Next(0, DefaultOptions.MatrixColumns);
                 var rowIndex = random.Next(0, DefaultOptions.MatrixRows);
                 baseMatrix[colIndex][rowIndex] = 1;
             }
-            result.CAPTCHA.SetMatrix(baseMatrix);
 
+            result.CAPTCHA.SetMatrix(baseMatrix);
             result.CAPTCHA.SetImageBytes([.. ImgService.GenerateImg(result.CAPTCHA, DefaultOptions)]);
 
+            result.Succeeded = true;
             return result;
         }
-
     }
 
     public class TileCAPTCHAServiceResult
     {
         public bool Succeeded { get; set; } = false;
         public TileCAPTCHA CAPTCHA { get; set; } = new() { AnswerMatrixAsPlainText = "DEFAULT" };
+        public List<List<int>> Matrix { get; set; } = [];
     }
 }
