@@ -1,22 +1,25 @@
 <mat-dialog-content class="main_content">
+  @if (isLoading) {
+  <div>Loading data</div>
+  } @else {
   <div class="left">
-    <img ngSrc="https://picsum.photos/200/300" alt="Tile CAPTCHA" fill />
+    <img [src]="data.imgUrl" alt="Tile CAPTCHA" fill />
   </div>
   <div class="right">
-    <h2>Tiles</h2>
+    <h2>Match the tiles</h2>
     <div class="right_tiles_container">
-      <button mat-stroked-button>Tile</button>
-      <button mat-flat-button>clicked</button>
-      <button mat-stroked-button>Tile</button>
-      <button mat-flat-button>clicked</button>
-      <button mat-stroked-button>Tile</button>
-      <button mat-flat-button>clicked</button>
-      <button mat-stroked-button>Tile</button>
-      <button mat-flat-button>clicked</button>
+      @for (row of data.matrix; track $index) {
+      <div class="right_tile_row">
+        @for (item of row; track $index) {
+        <button class="square_btn"></button>
+        }
+      </div>
+      }
     </div>
   </div>
+  }
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button cdkFocusInitial>Refresh</button>
-  <button mat-button cdkFocusInitial>Close</button>
+  <button mat-button cdkFocusInitial (click)="fetchData()">Refresh</button>
+  <button mat-button cdkFocusInitial>Submit</button>
 </mat-dialog-actions>

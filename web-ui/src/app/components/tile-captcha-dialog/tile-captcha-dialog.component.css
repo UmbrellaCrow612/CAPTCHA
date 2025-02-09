@@ -1,30 +1,43 @@
-.main {
-  width: 100%;
-  max-width: 750px;
-}
-
 .main_content {
   display: flex;
   gap: 3px;
+  width: 100%;
 }
 
 .left {
-  flex: 0.5;
+  flex: 1;
   position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.left img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 .right {
-  flex: 0.5;
-  padding: 10px;
+  flex: 1;
+  padding: 16px;
   display: flex;
   flex-direction: column;
+  gap: 16px;
+}
+.right_tiles_container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
 }
 
-.right_tiles_container {
-  flex: 1;
-  padding: 25px;
-  overflow-y: scroll;
+.right_tile_row {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
+  flex: 1;
+}
+
+.square_btn {
+  flex: 1;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
 }
