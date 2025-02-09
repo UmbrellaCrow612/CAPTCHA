@@ -27,25 +27,46 @@ namespace CAPTCHA.Core.Services
             {
                 for (int j = 0; j < matrix[i].Count; j++)
                 {
-                    var r = new Rectangle(i*xSlice, j*ySlice, xSlice, ySlice);
+                    var r = new Rectangle(i * xSlice, j * ySlice, xSlice, ySlice);
 
                     if (matrix[i][j] == (int)RocketBoardItems.RocketPosition)
                     {
+                        Point[] rocketPoints =
+                        {
+                            new(r.X + xSlice / 2, r.Y),               // Tip
+                            new(r.X, r.Y + ySlice),                  // Bottom left
+                            new(r.X + xSlice, r.Y + ySlice)          // Bottom right
+                        };
                         var brush = new SolidBrush(Color.Blue);
-                        graphics.FillRectangle(brush, r);
+                        graphics.FillPolygon(brush, rocketPoints);
                     }
 
                     if (matrix[i][j] == (int)RocketBoardItems.Meteor)
                     {
                         var brush = new SolidBrush(Color.Red);
-                        graphics.FillRectangle(brush, r);
+                        graphics.FillEllipse(brush, r);
                     }
 
                     if (matrix[i][j] == (int)RocketBoardItems.TargetGoal)
                     {
+                        PointF[] starPoints =
+                        {
+                            new(r.X + xSlice / 2, r.Y),             // Top
+                            new(r.X + xSlice * 0.6f, r.Y + ySlice * 0.4f),
+                            new(r.X + xSlice, r.Y + ySlice * 0.5f), // Right
+                            new(r.X + xSlice * 0.6f, r.Y + ySlice * 0.6f),
+                            new(r.X + xSlice / 2, r.Y + ySlice),    // Bottom
+                            new(r.X + xSlice * 0.4f, r.Y + ySlice * 0.6f),
+                            new(r.X, r.Y + ySlice * 0.5f),         // Left
+                            new(r.X + xSlice * 0.4f, r.Y + ySlice * 0.4f)
+                        };
                         var brush = new SolidBrush(Color.Green);
-                        graphics.FillRectangle(brush, r);
+                        graphics.FillPolygon(brush, starPoints);
                     }
+
+                    var pen = new Pen(Color.Black);
+
+                    graphics.DrawRectangle(pen, r);
                 }
             }
 
@@ -167,8 +188,8 @@ namespace CAPTCHA.Core.Services
                 float posX = r.Left + random.Next(0, Math.Max(0, (int)(r.Width - letterSize.Width)));
                 float posY = r.Top + random.Next(0, Math.Max(0, (int)(r.Height - letterSize.Height)));
                 PointF letterPosition = new(posX, posY);
-           
-                float angle = random.Next(0, 2) == 0 ? -45 : 45; 
+
+                float angle = random.Next(0, 2) == 0 ? -45 : 45;
                 g.TranslateTransform(letterPosition.X + letterSize.Width / 2, letterPosition.Y + letterSize.Height / 2);
                 g.RotateTransform(angle);
                 g.TranslateTransform(-(letterPosition.X + letterSize.Width / 2), -(letterPosition.Y + letterSize.Height / 2));
