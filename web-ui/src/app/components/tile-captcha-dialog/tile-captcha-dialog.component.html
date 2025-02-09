@@ -1,11 +1,22 @@
-<h2 mat-dialog-title>Hi</h2>
-<mat-dialog-content>
-  <p>What's your favorite animal?</p>
-  <mat-form-field>
-    <mat-label>Favorite Animal</mat-label>
-    <input matInput />
-  </mat-form-field>
+<mat-dialog-content class="main_content">
+  <div class="left">
+    <img ngSrc="https://picsum.photos/200/300" alt="Tile CAPTCHA" fill />
+  </div>
+  <div class="right">
+    <h2>Tiles</h2>
+    <div class="right_tiles_container">
+      <button mat-stroked-button>Tile</button>
+      <button mat-flat-button>clicked</button>
+      <button mat-stroked-button>Tile</button>
+      <button mat-flat-button>clicked</button>
+      <button mat-stroked-button>Tile</button>
+      <button mat-flat-button>clicked</button>
+      <button mat-stroked-button>Tile</button>
+      <button mat-flat-button>clicked</button>
+    </div>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
+  <button mat-button cdkFocusInitial>Refresh</button>
   <button mat-button cdkFocusInitial>Close</button>
 </mat-dialog-actions>

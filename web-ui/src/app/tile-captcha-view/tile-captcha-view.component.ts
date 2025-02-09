@@ -26,6 +26,10 @@ export class TileCaptchaViewComponent {
   constructor(private dialog: MatDialog) {}
 
   verifyCaptchaClicked() {
-    this.dialog.open(TileCaptchaDialogComponent);
+    this.dialog.open(TileCaptchaDialogComponent, {
+      width: '76vw',
+      maxWidth: '76vw',
+      height: "75vh"
+    });
   }
 }

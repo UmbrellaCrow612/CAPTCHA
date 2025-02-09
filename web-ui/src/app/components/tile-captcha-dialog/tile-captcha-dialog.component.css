@@ -1,0 +1,30 @@
+.main {
+  width: 100%;
+  max-width: 750px;
+}
+
+.main_content {
+  display: flex;
+  gap: 3px;
+}
+
+.left {
+  flex: 0.5;
+  position: relative;
+}
+
+.right {
+  flex: 0.5;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.right_tiles_container {
+  flex: 1;
+  padding: 25px;
+  overflow-y: scroll;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
