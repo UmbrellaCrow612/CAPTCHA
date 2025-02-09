@@ -119,8 +119,6 @@ namespace CAPTCHA.Core.Services
             return ms.ToArray();
         }
 
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public static byte[] GenerateImg(TextImgCAPTCHA captcha, TextImgCAPTCHAOptions options)
         {

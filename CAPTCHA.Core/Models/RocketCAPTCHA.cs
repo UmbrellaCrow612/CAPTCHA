@@ -31,10 +31,7 @@
             Matrix = matrix;
         }
 
-        public bool IsMoveOrderCorrect(List<int> moves)
-        {
-            return true;
-        }
+       
 
         public int GeytMaxMoves()
         {

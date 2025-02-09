@@ -80,6 +80,68 @@ namespace CAPTCHA.Core.Services
 
             return result;
         }
+
+        public bool CanMovesReachGoal(List<int> moves, List<List<int>> matrix, int rocketColIndex, int rocketRowIndex)
+        {
+            var colIndex = rocketColIndex;
+            var rowIndex = rocketRowIndex;
+
+            for (int i = 0; i < moves.Count; i++)
+            {
+                switch (moves[i])
+                {
+                    case (int)RocketMoves.Up:
+                        if (rowIndex - 1 < 0) // Check if moving up is out of bounds
+                        {
+                            return false;
+                        }
+                        rowIndex--; // Move up
+                        break;
+
+                    case (int)RocketMoves.Right:
+                        if (colIndex + 1 >= matrix[rowIndex].Count) // Check if moving right is out of bounds
+                        {
+                            return false;
+                        }
+                        colIndex++; // Move right
+                        break;
+
+                    case (int)RocketMoves.Down:
+                        if (rowIndex + 1 >= matrix.Count) // Check if moving down is out of bounds
+                        {
+                            return false;
+                        }
+                        rowIndex++; // Move down
+                        break;
+
+                    case (int)RocketMoves.Left:
+                        if (colIndex - 1 < 0) // Check if moving left is out of bounds
+                        {
+                            return false;
+                        }
+                        colIndex--; // Move left
+                        break;
+
+                    default:
+                        // Handle unexpected move values
+                        return false;
+                }
+
+                // Check the new position after the move
+                var itemAtNewIndex = matrix[rowIndex][colIndex];
+                if (itemAtNewIndex == (int)RocketBoardItems.Meteor)
+                {
+                    return false; // Hit a meteor
+                }
+                if (itemAtNewIndex == (int)RocketBoardItems.TargetGoal)
+                {
+                    return true; // Reached the goal
+                }
+            }
+
+            // If all moves are processed and the goal is not reached
+            return false;
+        }
     }
 
     public class RocketCAPTCHAServiceResult
