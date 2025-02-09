@@ -1,14 +1,20 @@
-"use client"
+"use client";
 
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 interface TileGameDialogProps {
-  matrix: number[][]
+  captchaData: { baseMatrix: number[][]; imageUrl: string; captchaId: string };
 }
 
-export function TileGameDialog({ matrix }: TileGameDialogProps) {
+export function TileGameDialog({ captchaData }: TileGameDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -16,13 +22,15 @@ export function TileGameDialog({ matrix }: TileGameDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl sm:text-3xl font-bold text-center">Tile Game</DialogTitle>
+          <DialogTitle className="text-2xl sm:text-3xl font-bold text-center">
+            Tile Game match the tiles
+          </DialogTitle>
         </DialogHeader>
         <div className="w-full bg-white rounded-lg overflow-hidden flex flex-col md:flex-row">
           <div className="flex-1 p-4 sm:p-6 flex flex-col">
             <div className="mb-4 sm:mb-6 rounded-md overflow-hidden">
               <Image
-                src="https://picsum.photos/200/300"
+                src={captchaData.imageUrl}
                 alt="Placeholder Image"
                 width={400}
                 height={300}
@@ -37,9 +45,11 @@ export function TileGameDialog({ matrix }: TileGameDialogProps) {
             </div>
           </div>
           <div className="flex-1 border-t md:border-l md:border-t-0 border-gray-200 p-4 sm:p-6">
-            <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">Matrix Buttons</h2>
+            <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">
+              Tiles
+            </h2>
             <div className="flex flex-col gap-2">
-              {matrix.map((row, rowIndex) => (
+              {captchaData.baseMatrix.map((row, rowIndex) => (
                 <div key={rowIndex} className="flex gap-2">
                   {row.map((value, colIndex) => (
                     <Button
@@ -57,6 +67,5 @@ export function TileGameDialog({ matrix }: TileGameDialogProps) {
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
-

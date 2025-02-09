@@ -16,7 +16,8 @@ builder.Services.AddCors(options =>
     {
         builder.AllowAnyOrigin() // Allow any origin
                .AllowAnyMethod() // Allow any HTTP method (GET, POST, etc.)
-               .AllowAnyHeader(); // Allow any header
+               .AllowAnyHeader() // Allow any header
+               .WithExposedHeaders("x-base-matrix", "x-captcha-id");
     });
 });
 
