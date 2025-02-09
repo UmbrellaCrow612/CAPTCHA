@@ -9,6 +9,52 @@ namespace CAPTCHA.Core.Services
     internal class ImgService
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
+        public static byte[] GenerateImg(RocketCAPTCHA rocketCAPTCHA, RocketCAPTCHAOptions options)
+        {
+            var matrix = rocketCAPTCHA.GetMatrix();
+            int widthOfImage = 250;
+            int heightOfImage = 250;
+
+            using Bitmap bitmap = new(widthOfImage, heightOfImage);
+            using Graphics graphics = Graphics.FromImage(bitmap);
+
+            graphics.Clear(Color.White);
+
+            var xSlice = widthOfImage / options.MatrixColumns;
+            var ySlice = heightOfImage / options.MatrixRows;
+
+            for (int i = 0; i < matrix.Count; i++)
+            {
+                for (int j = 0; j < matrix[i].Count; j++)
+                {
+                    var r = new Rectangle(i*xSlice, j*ySlice, xSlice, ySlice);
+
+                    if (matrix[i][j] == (int)RocketBoardItems.RocketPosition)
+                    {
+                        var brush = new SolidBrush(Color.Blue);
+                        graphics.FillRectangle(brush, r);
+                    }
+
+                    if (matrix[i][j] == (int)RocketBoardItems.Meteor)
+                    {
+                        var brush = new SolidBrush(Color.Red);
+                        graphics.FillRectangle(brush, r);
+                    }
+
+                    if (matrix[i][j] == (int)RocketBoardItems.TargetGoal)
+                    {
+                        var brush = new SolidBrush(Color.Green);
+                        graphics.FillRectangle(brush, r);
+                    }
+                }
+            }
+
+            using MemoryStream ms = new();
+            bitmap.Save(ms, ImageFormat.Png);
+            return ms.ToArray();
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Validate platform compatibility", Justification = "<Pending>")]
         public static byte[] GenerateImg(TileCAPTCHA captcha, TileCAPTCHAOptions options)
         {
             using Bitmap bitmap = new(options.WidthOfImage, options.HeightOfImage);
