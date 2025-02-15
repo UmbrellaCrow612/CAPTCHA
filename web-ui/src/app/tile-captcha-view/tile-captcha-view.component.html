@@ -14,7 +14,7 @@
           <input matInput type="password" />
         </mat-form-field>
         <button mat-stroked-button type="button" (click)="verifyCaptchaClicked()">Verify CAPTCHA</button>
-        <button mat-stroked-button [disabled]="!captchaVerified" type="submit">
+        <button mat-stroked-button [disabled]="!captchaPassed" type="submit">
           Register
         </button>
       </form>

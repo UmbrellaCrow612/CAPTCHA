@@ -74,6 +74,23 @@ namespace CAPTCHA.API.Migrations
 
                     b.ToTable("TextImgCAPTCHAs");
                 });
+
+            modelBuilder.Entity("CAPTCHA.Core.Models.TileCAPTCHA", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AnswerMatrixAsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TileCAPTCHAs");
+                });
 #pragma warning restore 612, 618
         }
     }

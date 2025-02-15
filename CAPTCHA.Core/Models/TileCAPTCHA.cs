@@ -7,7 +7,12 @@
         /// <summary>
         /// When we make the matrix well make it into a string to store it like [[1,2,3,4],[1,2,3,4],[1,2,3,4]]as a string
         /// </summary>
-        public required string AnswerMatrixAsPlainText { get; set; }
+        public required string AnswerMatrixAsJson { get; set; }
+
+        /// <summary>
+        /// If the current captcha has ben used already to stop others from using it again
+        /// </summary>
+        public bool IsUsed { get; set; } = false;
 
 
         /// <summary>
@@ -41,26 +46,9 @@
             return AnswerImageBytes;
         }
 
-        // Change to matcj how we store it make it a string and just do a string comp
-        public bool IsAnswerCorrect(List<List<int>> matrix)
+        public bool IsAnswerCorrect(string jsonMatrix)
         {
-            if (matrix.Count != Matrix.Count || matrix.Any(row => row.Count != Matrix[0].Count))
-            {
-                return false;
-            }
-
-            for (int i = 0; i < Matrix.Count; i++)
-            {
-                for (int j = 0; j < Matrix[i].Count; j++)
-                {
-                    if (matrix[i][j] != Matrix[i][j])
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
+            return string.Equals(AnswerMatrixAsJson, jsonMatrix);
         }
     }
 }

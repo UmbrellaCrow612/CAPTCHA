@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CAPTCHA.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,6 +44,19 @@ namespace CAPTCHA.API.Migrations
                 {
                     table.PrimaryKey("PK_TextImgCAPTCHAs", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "TileCAPTCHAs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    AnswerMatrixAsJson = table.Column<string>(type: "TEXT", nullable: false),
+                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TileCAPTCHAs", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
@@ -54,6 +67,9 @@ namespace CAPTCHA.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "TextImgCAPTCHAs");
+
+            migrationBuilder.DropTable(
+                name: "TileCAPTCHAs");
         }
     }
 }

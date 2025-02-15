@@ -1,6 +1,8 @@
 <mat-dialog-content class="main_content">
   @if (isLoading) {
-  <div>Loading data</div>
+  <div>Loading</div>
+  } @else { @if (errorMessage && isSuc == false) {
+  <div>Failed CAPTCHA try again {{errorMessage}}</div>
   } @else {
   <div class="left">
     <img [src]="data.imgUrl" alt="Tile CAPTCHA" fill />
@@ -8,18 +10,28 @@
   <div class="right">
     <h2>Match the tiles</h2>
     <div class="right_tiles_container">
-      @for (row of data.matrix; track $index) {
+      @for (row of data.matrix; track $index; let rowIndex = $index) {
       <div class="right_tile_row">
-        @for (item of row; track $index) {
-        <button class="square_btn"></button>
-        }
+        @for (item of row; track $index; let colIndex = $index) { @if
+        (item.toString() === "0") {
+        <button
+          class="square_btn"
+          (click)="handleBtnClick(rowIndex, colIndex)"
+        ></button>
+        } @else {
+        <button
+          class="square_btn_clicked"
+          (click)="handleBtnClick(rowIndex, colIndex)"
+        ></button>
+        } }
       </div>
       }
     </div>
   </div>
-  }
+  } }
 </mat-dialog-content>
 <mat-dialog-actions>
+  <button mat-button mat-dialog-close #closeButton>Close</button>
   <button mat-button cdkFocusInitial (click)="fetchData()">Refresh</button>
-  <button mat-button cdkFocusInitial>Submit</button>
+  <button mat-button (click)="handleSubmit()">Submit</button>
 </mat-dialog-actions>

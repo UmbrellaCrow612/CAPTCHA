@@ -41,3 +41,9 @@
   border: 1px solid #ccc;
   background-color: #f0f0f0;
 }
+
+.square_btn_clicked{
+  flex: 1;
+  border: 1px solid #ccc;
+  background-color: blue;
+}

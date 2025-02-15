@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CAPTCHA.API.Migrations
 {
     [DbContext(typeof(CAPTCHADbContext))]
-    [Migration("20250207121723_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250215113325_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,6 +76,23 @@ namespace CAPTCHA.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("TextImgCAPTCHAs");
+                });
+
+            modelBuilder.Entity("CAPTCHA.Core.Models.TileCAPTCHA", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AnswerMatrixAsJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TileCAPTCHAs");
                 });
 #pragma warning restore 612, 618
         }

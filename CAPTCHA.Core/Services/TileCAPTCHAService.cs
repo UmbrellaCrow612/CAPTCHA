@@ -1,6 +1,7 @@
 ﻿using CAPTCHA.Core.Models;
 using CAPTCHA.Core.Options;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace CAPTCHA.Core.Services
 {
@@ -44,6 +45,7 @@ namespace CAPTCHA.Core.Services
 
             result.CAPTCHA.SetMatrix(baseMatrix);
             result.CAPTCHA.SetImageBytes([.. ImgService.GenerateImg(result.CAPTCHA, DefaultOptions)]);
+            result.CAPTCHA.AnswerMatrixAsJson = JsonSerializer.Serialize(baseMatrix);
 
             result.Succeeded = true;
             return result;
@@ -53,7 +55,7 @@ namespace CAPTCHA.Core.Services
     public class TileCAPTCHAServiceResult
     {
         public bool Succeeded { get; set; } = false;
-        public TileCAPTCHA CAPTCHA { get; set; } = new() { AnswerMatrixAsPlainText = "DEFAULT" };
+        public TileCAPTCHA CAPTCHA { get; set; } = new() { AnswerMatrixAsJson = "DEFAULT" };
         public List<List<int>> Matrix { get; set; } = [];
     }
 }

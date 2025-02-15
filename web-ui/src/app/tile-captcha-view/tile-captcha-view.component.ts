@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { TileCAPTCHAPassedService } from './../services/tile-captchapassed.service';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -20,16 +21,24 @@ import { TileCaptchaDialogComponent } from '../components/tile-captcha-dialog/ti
   templateUrl: './tile-captcha-view.component.html',
   styleUrl: './tile-captcha-view.component.css',
 })
-export class TileCaptchaViewComponent {
-  captchaVerified = false;
+export class TileCaptchaViewComponent implements OnInit {
+  captchaPassed = false;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private sharedState: TileCAPTCHAPassedService
+  ) {}
+  ngOnInit(): void {
+    this.sharedState.currentState.subscribe((value) => {
+      this.captchaPassed = value;
+    });
+  }
 
   verifyCaptchaClicked() {
     this.dialog.open(TileCaptchaDialogComponent, {
       width: '76vw',
       maxWidth: '76vw',
-      height: "75vh"
+      height: '75vh',
     });
   }
 }
