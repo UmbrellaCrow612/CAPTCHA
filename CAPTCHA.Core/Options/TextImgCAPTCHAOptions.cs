@@ -6,13 +6,13 @@ namespace CAPTCHA.Core.Options
     public class TextImgCAPTCHAOptions
     {
         /// <summary>
-        /// The characters that will be used as part of the text shown in the CAPTCHA img, by default it ranges from
-        /// the letters A - Z and a-z
+        /// The characters that will be used as part of the text shown in the CAPTCHA image.
+        /// Only lowercase letters a-z are included.
         /// </summary>
         public HashSet<char> CharacterSet = new(
-            Enumerable.Range('A', 26).Select(c => (char)c)
-            .Concat(Enumerable.Range('a', 26).Select(c => (char)c))
+            Enumerable.Range('a', 26).Select(c => (char)c)
         );
+
 
         /// <summary>
         /// The time in minutes when the CAPTCHA expires or is considred invalid

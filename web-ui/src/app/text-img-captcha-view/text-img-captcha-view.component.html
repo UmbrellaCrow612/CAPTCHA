@@ -1,0 +1,55 @@
+<div class="container">
+  <mat-card appearance="outlined" class="card">
+    <mat-card-header>
+      <mat-card-title> Text image captcha example </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="content">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Placeholder" />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input matInput placeholder="password" type="password" />
+      </mat-form-field>
+      @if (isLoading) {
+      <div>Loading captcha</div>
+      } @else { @if (errorMessage) {
+      <div>
+        {{ errorMessage }}
+        <button mat-flat-button (click)="fetchData()">try again</button>
+      </div>
+      }@else { @if (captchaPassed) {
+      <div>Passed captcha</div>
+      } @else {
+      <div class="captcha_container">
+        <div class="left">
+          <img [src]="imgUrl" alt="captcha img" />
+        </div>
+        <div class="right">
+          <mat-form-field appearance="fill">
+            <mat-label>Answer</mat-label>
+            <input matInput [formControl]="answer" />
+            @if (!answer.valid) {
+            <mat-error> Required </mat-error>
+            }
+          </mat-form-field>
+          <div class="captcha_btns">
+            <button mat-flat-button (click)="fetchData()">Refresh</button>
+            <button
+              mat-flat-button
+              (click)="submitCaptcha()"
+              [disabled]="!answer.valid"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      } } }
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button [disabled]="!captchaPassed">Register</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

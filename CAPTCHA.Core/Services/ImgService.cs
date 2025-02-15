@@ -158,17 +158,12 @@ namespace CAPTCHA.Core.Services
                 string letter = s[i].ToString();
 
                 float fontSize = random.Next(20, 36);
-                List<FontFamily> fonts = [FontFamily.GenericMonospace, FontFamily.GenericSansSerif, FontFamily.GenericMonospace];
+                List<FontFamily> fonts = [FontFamily.GenericMonospace, FontFamily.GenericMonospace];
 
                 var additionalFonts = new[]
                 {
                     "Cooper Black",
-                    "Arial Black",
-                    "Comic Sans MS",
-                    "Courier New",
-                    "Impact",
-                    "Verdana",
-                    "Georgia"
+               
                 };
                 foreach (var fontName in additionalFonts)
                 {
