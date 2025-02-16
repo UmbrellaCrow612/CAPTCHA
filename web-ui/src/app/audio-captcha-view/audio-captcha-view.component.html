@@ -1,0 +1,58 @@
+<div class="container">
+  <mat-card appearance="outlined" class="card">
+    <mat-card-header>
+      <mat-card-title>Audio captcha example</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="inputs">
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Placeholder" />
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Placeholder" type="password" />
+        </mat-form-field>
+      </div>
+      @if (isLoading) {
+      <div>Loading</div>
+      } @else { @if (captchaPassed) {
+      <div>Passed captcha</div>
+      } @else { @if (errorMessage) {
+      <div>
+        {{ errorMessage }}
+        <button mat-raised-button (click)="fetchData()">Refresh</button>
+      </div>
+      } @else {
+      <div class="captcha_container">
+        <div class="captcha_form_container">
+          <audio [src]="audioUrl" controls></audio>
+          <mat-form-field appearance="fill">
+            <mat-label>Answer</mat-label>
+            <input matInput [formControl]="answerInput" />
+            @if (!answerInput.valid) {
+            <mat-error> Required </mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="captcha_btns">
+          <button mat-raised-button (click)="fetchData()">Refresh</button>
+          <button
+            mat-raised-button
+            (click)="submitData()"
+            [disabled]="!answerInput.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+      } }}
+    </mat-card-content>
+    <mat-card-footer>
+      <mat-card-actions>
+        <button mat-raised-button [disabled]="!captchaPassed">Register</button>
+      </mat-card-actions>
+    </mat-card-footer>
+  </mat-card>
+</div>
