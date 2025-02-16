@@ -1,3 +1,4 @@
+import { HomeViewComponent } from './home-view/home-view.component';
 import { Routes } from '@angular/router';
 import { TileCaptchaViewComponent } from './tile-captcha-view/tile-captcha-view.component';
 import { TextImgCaptchaViewComponent } from './text-img-captcha-view/text-img-captcha-view.component';
@@ -18,5 +19,9 @@ export const routes: Routes = [
     path: 'audio',
     title: 'Audio captcha',
     component: AudioCaptchaViewComponent,
+  },
+  {
+    path: '',
+    component: HomeViewComponent,
   },
 ];
