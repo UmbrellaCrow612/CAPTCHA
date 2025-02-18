@@ -8,5 +8,6 @@ namespace CAPTCHA.API.Data
         public DbSet<TextImgCAPTCHA> TextImgCAPTCHAs {  get; set; }
         public DbSet<AudioCAPTCHA> AudioCAPTCHAs { get; set; }
         public DbSet<TileCAPTCHA> TileCAPTCHAs { get; set; }
+        public DbSet<RocketCAPTCHA> RocketCAPTCHAs { get; set; }
     }
 }

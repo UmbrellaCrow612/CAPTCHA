@@ -1,4 +1,5 @@
 ﻿using CAPTCHA.API.Data;
+using CAPTCHA.API.DTOs;
 using CAPTCHA.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 

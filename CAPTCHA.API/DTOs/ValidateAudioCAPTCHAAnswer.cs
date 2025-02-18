@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CAPTCHA.API.Data
+namespace CAPTCHA.API.DTOs
 {
     public class ValidateAudioCAPTCHAAnswer
     {
@@ -8,6 +8,6 @@ namespace CAPTCHA.API.Data
         public required string Id { get; set; }
 
         [Required]
-        public required string Answer {  get; set; }
+        public required string Answer { get; set; }
     }
 }

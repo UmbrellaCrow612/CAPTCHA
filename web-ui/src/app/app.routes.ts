@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { TileCaptchaViewComponent } from './tile-captcha-view/tile-captcha-view.component';
 import { TextImgCaptchaViewComponent } from './text-img-captcha-view/text-img-captcha-view.component';
 import { AudioCaptchaViewComponent } from './audio-captcha-view/audio-captcha-view.component';
+import { RocketCaptchaViewComponent } from './rocket-captcha-view/rocket-captcha-view.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,11 @@ export const routes: Routes = [
     path: 'audio',
     title: 'Audio captcha',
     component: AudioCaptchaViewComponent,
+  },
+  {
+    path: 'rocket',
+    title: 'Rocket captcha',
+    component: RocketCaptchaViewComponent,
   },
   {
     path: '',

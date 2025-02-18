@@ -20,52 +20,53 @@ namespace CAPTCHA.Core.Services
 
             graphics.Clear(Color.White);
 
-            var xSlice = widthOfImage / options.MatrixColumns;
-            var ySlice = heightOfImage / options.MatrixRows;
+            int rowCount = matrix.Count;
+            int colCount = matrix[0].Count;
+            int xSlice = widthOfImage / colCount;
+            int ySlice = heightOfImage / rowCount;
 
-            for (int i = 0; i < matrix.Count; i++)
+            for (int j = 0; j < rowCount; j++) // Row first
             {
-                for (int j = 0; j < matrix[i].Count; j++)
+                for (int i = 0; i < colCount; i++) // Then column
                 {
                     var r = new Rectangle(i * xSlice, j * ySlice, xSlice, ySlice);
 
-                    if (matrix[i][j] == (int)RocketBoardItems.RocketPosition)
+                    if (matrix[j][i] == (int)RocketBoardItems.RocketPosition)
                     {
                         Point[] rocketPoints =
                         {
-                            new(r.X + xSlice / 2, r.Y),               // Tip
-                            new(r.X, r.Y + ySlice),                  // Bottom left
-                            new(r.X + xSlice, r.Y + ySlice)          // Bottom right
-                        };
+                    new(r.X + xSlice / 2, r.Y),               // Tip
+                    new(r.X, r.Y + ySlice),                  // Bottom left
+                    new(r.X + xSlice, r.Y + ySlice)          // Bottom right
+                };
                         var brush = new SolidBrush(Color.Blue);
                         graphics.FillPolygon(brush, rocketPoints);
                     }
 
-                    if (matrix[i][j] == (int)RocketBoardItems.Meteor)
+                    if (matrix[j][i] == (int)RocketBoardItems.Meteor)
                     {
                         var brush = new SolidBrush(Color.Red);
                         graphics.FillEllipse(brush, r);
                     }
 
-                    if (matrix[i][j] == (int)RocketBoardItems.TargetGoal)
+                    if (matrix[j][i] == (int)RocketBoardItems.TargetGoal)
                     {
                         PointF[] starPoints =
                         {
-                            new(r.X + xSlice / 2, r.Y),             // Top
-                            new(r.X + xSlice * 0.6f, r.Y + ySlice * 0.4f),
-                            new(r.X + xSlice, r.Y + ySlice * 0.5f), // Right
-                            new(r.X + xSlice * 0.6f, r.Y + ySlice * 0.6f),
-                            new(r.X + xSlice / 2, r.Y + ySlice),    // Bottom
-                            new(r.X + xSlice * 0.4f, r.Y + ySlice * 0.6f),
-                            new(r.X, r.Y + ySlice * 0.5f),         // Left
-                            new(r.X + xSlice * 0.4f, r.Y + ySlice * 0.4f)
-                        };
+                    new(r.X + xSlice / 2, r.Y),             // Top
+                    new(r.X + xSlice * 0.6f, r.Y + ySlice * 0.4f),
+                    new(r.X + xSlice, r.Y + ySlice * 0.5f), // Right
+                    new(r.X + xSlice * 0.6f, r.Y + ySlice * 0.6f),
+                    new(r.X + xSlice / 2, r.Y + ySlice),    // Bottom
+                    new(r.X + xSlice * 0.4f, r.Y + ySlice * 0.6f),
+                    new(r.X, r.Y + ySlice * 0.5f),         // Left
+                    new(r.X + xSlice * 0.4f, r.Y + ySlice * 0.4f)
+                };
                         var brush = new SolidBrush(Color.Green);
                         graphics.FillPolygon(brush, starPoints);
                     }
 
                     var pen = new Pen(Color.Black);
-
                     graphics.DrawRectangle(pen, r);
                 }
             }

@@ -1,0 +1,28 @@
+.captcha_img_container {
+  width: 500px;
+  height: 250px;
+}
+
+.captcha_img_container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.move_btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 5px;
+}
+
+.moves_display_continer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.moves_display_continer span {
+  flex: 1;
+}

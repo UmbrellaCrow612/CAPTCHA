@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Rocket captcha move it to the goal</h2>
+@if (isLoading) {
+<mat-dialog-content>Loading</mat-dialog-content>
+} @else { @if (errorMessage) {
+<mat-dialog-content>
+  {{ errorMessage }}
+</mat-dialog-content>
+} @else {
+<mat-dialog-content>
+  <div class="captcha_img_container">
+    <img [src]="captchaImgUrl" alt="rocket captcha" />
+  </div>
+  <div class="move_btns">
+    <button mat-stroked-button (click)="storeMove(rMoves.up)">Up</button>
+    <button mat-stroked-button (click)="storeMove(rMoves.down)">Down</button>
+    <button mat-stroked-button (click)="storeMove(rMoves.left)">Left</button>
+    <button mat-stroked-button (click)="storeMove(rMoves.right)">Right</button>
+  </div>
+  <div class="moves_display_continer">
+    <span>
+      Moves: @for (item of moves; track $index) {
+      <span>
+        {{ getMoveName(item) }}
+      </span>
+      }
+    </span>
+    <button mat-flat-button (click)="undoLastMove()">Undo</button>
+  </div>
+</mat-dialog-content>
+} }
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+  <button mat-button (click)="fetchData()">Refresh</button>
+  <button mat-button (click)="submit()">Submit</button>
+</mat-dialog-actions>

@@ -46,6 +46,20 @@ namespace CAPTCHA.API.Migrations
                     b.ToTable("AudioCAPTCHAs");
                 });
 
+            modelBuilder.Entity("CAPTCHA.Core.Models.RocketCAPTCHA", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MatrixAsJSON")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RocketCAPTCHAs");
+                });
+
             modelBuilder.Entity("CAPTCHA.Core.Models.TextImgCAPTCHA", b =>
                 {
                     b.Property<string>("Id")

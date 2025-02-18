@@ -1,5 +1,6 @@
 ﻿using CAPTCHA.Core.Models;
 using CAPTCHA.Core.Options;
+using System.Text.Json;
 
 namespace CAPTCHA.Core.Services
 {
@@ -77,11 +78,12 @@ namespace CAPTCHA.Core.Services
 
             result.CAPTCHA.SetMatrix(matrix);
             result.CAPTCHA.SetImageBytes([.. ImgService.GenerateImg(result.CAPTCHA, Options)]);
+            result.CAPTCHA.MatrixAsJSON = JsonSerializer.Serialize(matrix);
 
             return result;
         }
 
-        public bool CanMovesReachGoal(List<int> moves, List<List<int>> matrix, int rocketColIndex, int rocketRowIndex)
+        public static bool CanMovesReachGoal(List<int> moves, List<List<int>> matrix, int rocketColIndex, int rocketRowIndex)
         {
             var colIndex = rocketColIndex;
             var rowIndex = rocketRowIndex;
@@ -141,6 +143,22 @@ namespace CAPTCHA.Core.Services
 
             // If all moves are processed and the goal is not reached
             return false;
+        }
+
+        public static (int row, int col) FindRocketPosition(List<List<int>> matrix)
+        {
+            for (int i = 0; i < matrix.Count; i++) // Iterate over rows
+            {
+                for (int j = 0; j < matrix[i].Count; j++) // Iterate over columns
+                {
+                    if (matrix[i][j] == (int)RocketBoardItems.RocketPosition)
+                    {
+                        return (i, j); // Return row and column index immediately
+                    }
+                }
+            }
+
+            return (-1, -1); // Return (-1, -1) if rocket is not found
         }
     }
 

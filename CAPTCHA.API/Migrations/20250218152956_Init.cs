@@ -29,6 +29,18 @@ namespace CAPTCHA.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RocketCAPTCHAs",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    MatrixAsJSON = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RocketCAPTCHAs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TextImgCAPTCHAs",
                 columns: table => new
                 {
@@ -64,6 +76,9 @@ namespace CAPTCHA.API.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AudioCAPTCHAs");
+
+            migrationBuilder.DropTable(
+                name: "RocketCAPTCHAs");
 
             migrationBuilder.DropTable(
                 name: "TextImgCAPTCHAs");

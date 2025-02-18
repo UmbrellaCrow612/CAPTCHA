@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CAPTCHA.API.Migrations
 {
     [DbContext(typeof(CAPTCHADbContext))]
-    [Migration("20250215113325_Init")]
+    [Migration("20250218152956_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -47,6 +47,20 @@ namespace CAPTCHA.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AudioCAPTCHAs");
+                });
+
+            modelBuilder.Entity("CAPTCHA.Core.Models.RocketCAPTCHA", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MatrixAsJSON")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RocketCAPTCHAs");
                 });
 
             modelBuilder.Entity("CAPTCHA.Core.Models.TextImgCAPTCHA", b =>

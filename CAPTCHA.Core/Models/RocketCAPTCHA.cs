@@ -4,6 +4,14 @@
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
 
+        /// <summary>
+        /// The matrix used to geenrate the final img and is the game state - read back to a 2d matrix and rocket position is found then moves from UI played
+        /// agaisnt it
+        /// </summary>
+        public string MatrixAsJSON { get; set; } = "";
+
+
+
         private readonly int MAX_MOVE_COUNT  = 10;
 
         private byte[] ImageBytes { get; set; } = [];
@@ -30,8 +38,6 @@
         {
             Matrix = matrix;
         }
-
-       
 
         public int GeytMaxMoves()
         {
