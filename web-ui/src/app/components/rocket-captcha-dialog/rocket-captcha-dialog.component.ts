@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { rocketMoves } from '../../../utils/rocketCaptcha';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
@@ -18,6 +18,7 @@ export class RocketCaptchaDialogComponent implements OnInit {
   isLoading = true;
   errorMessage: string | null = null;
   captchaId: string = '';
+  readonly dialogRef = inject(MatDialogRef<RocketCaptchaDialogComponent>);
 
   ngOnInit(): void {
     this.fetchData();
@@ -53,6 +54,7 @@ export class RocketCaptchaDialogComponent implements OnInit {
     this.http.post('https://localhost:7153/captcha/rocket', body).subscribe({
       next: (res) => {
         this.isLoading = false;
+        this.dialogRef.close();
       },
       error: (err: HttpErrorResponse) => {
         this.errorMessage = err.error;

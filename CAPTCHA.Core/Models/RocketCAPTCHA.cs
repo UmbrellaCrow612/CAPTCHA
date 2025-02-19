@@ -10,6 +10,8 @@
         /// </summary>
         public string MatrixAsJSON { get; set; } = "";
 
+        public bool IsUsed { get; set; } = false;
+
 
 
         private readonly int MAX_MOVE_COUNT  = 10;

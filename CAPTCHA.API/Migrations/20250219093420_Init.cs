@@ -33,7 +33,8 @@ namespace CAPTCHA.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "TEXT", nullable: false),
-                    MatrixAsJSON = table.Column<string>(type: "TEXT", nullable: false)
+                    MatrixAsJSON = table.Column<string>(type: "TEXT", nullable: false),
+                    IsUsed = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

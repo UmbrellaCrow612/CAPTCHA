@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CAPTCHA.API.Migrations
 {
     [DbContext(typeof(CAPTCHADbContext))]
-    [Migration("20250218152956_Init")]
+    [Migration("20250219093420_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -53,6 +53,9 @@ namespace CAPTCHA.API.Migrations
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("MatrixAsJSON")
                         .IsRequired()

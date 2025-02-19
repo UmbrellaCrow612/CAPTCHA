@@ -51,6 +51,9 @@ namespace CAPTCHA.API.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("MatrixAsJSON")
                         .IsRequired()
                         .HasColumnType("TEXT");

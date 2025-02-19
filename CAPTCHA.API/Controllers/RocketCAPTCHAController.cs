@@ -35,6 +35,7 @@ namespace CAPTCHA.API.Controllers
         {
             var captcha = await _dbContext.RocketCAPTCHAs.FindAsync(dto.Id);
             if (captcha is null) return NotFound("CAPTCHA_NOT_FOUND");
+            if (captcha.IsUsed) return BadRequest("CAPTCHA_USED");
 
             var matrix = JsonSerializer.Deserialize<List<List<int>>>(captcha.MatrixAsJSON);
             if (matrix is null) return BadRequest("CAPTCHA_ISSUE");
@@ -43,6 +44,9 @@ namespace CAPTCHA.API.Controllers
 
             var answerIsCorr = RocketCAPTCHAService.CanMovesReachGoal(dto.Answer, matrix, col, row);
             if (!answerIsCorr) return BadRequest("WRONG_MOVES");
+            captcha.IsUsed = true;
+            _dbContext.RocketCAPTCHAs.Update(captcha);
+            await _dbContext.SaveChangesAsync();
 
             return Ok();
         }
