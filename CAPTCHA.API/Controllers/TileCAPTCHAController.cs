@@ -1,5 +1,6 @@
 ﻿using CAPTCHA.API.Data;
 using CAPTCHA.API.DTOs;
+using CAPTCHA.Core;
 using CAPTCHA.Core.Options;
 using CAPTCHA.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +24,8 @@ namespace CAPTCHA.API.Controllers
             var fileName = $@"tile-captcha-{res.CAPTCHA.Id}";
 
             var file = File(res.CAPTCHA.GetImageBytes(), MimeTypes.Png, fileName);
-            Response.Headers["X-Captcha-Id"] = res.CAPTCHA.Id;
-            Response.Headers["X-Base-Matrix"] = JsonSerializer.Serialize(res.Matrix);
+            Response.Headers[Headers.XCaptchaId] = res.CAPTCHA.Id;
+            Response.Headers[Headers.XBaseMatrix] = JsonSerializer.Serialize(res.Matrix);
 
             await _dbContext.TileCAPTCHAs.AddAsync(res.CAPTCHA);
             await _dbContext.SaveChangesAsync();
@@ -36,10 +37,10 @@ namespace CAPTCHA.API.Controllers
         public async Task<IActionResult> Post([FromBody] ValidateTileCAPTCHADto dto)
         {
             var captcha = await _dbContext.TileCAPTCHAs.FindAsync(dto.Id);
-            if (captcha is null) return BadRequest("NOT_FOUND");
+            if (captcha is null) return BadRequest(Codes.NOT_FOUND);
 
-            if (captcha.IsUsed) return BadRequest("USED");
-            if (!captcha.IsAnswerCorrect(dto.Answer)) return BadRequest("TILES_DO_NOT_MATCH");
+            if (captcha.IsUsed) return BadRequest(Codes.USED);
+            if (!captcha.IsAnswerCorrect(dto.Answer)) return BadRequest(Codes.WRONG_ANSWER);
 
             return Ok();
         }

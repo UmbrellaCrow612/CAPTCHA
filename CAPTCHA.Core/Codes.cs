@@ -14,5 +14,7 @@
         public static string MAX_ATTEMPTS = "MAX_ATTEMPTS";
 
         public static string USED = "USED";
+
+        public static string INTERNAL_CAPTCHA_ISSUE = "INTERNAL_CAPTCHA_ISSUE";
     }
 }

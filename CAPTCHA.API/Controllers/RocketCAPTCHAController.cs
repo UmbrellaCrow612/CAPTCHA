@@ -1,6 +1,6 @@
 ﻿using CAPTCHA.API.Data;
 using CAPTCHA.API.DTOs;
-using CAPTCHA.Core.Models;
+using CAPTCHA.Core;
 using CAPTCHA.Core.Options;
 using CAPTCHA.Core.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +18,14 @@ namespace CAPTCHA.API.Controllers
         public async Task<IActionResult> Get()
         {
             var service = new RocketCAPTCHAService();
-            var m = service.GenerateQuestion();
+            var result = service.GenerateQuestion();
 
-            await _dbContext.RocketCAPTCHAs.AddAsync(m.CAPTCHA);
+            await _dbContext.RocketCAPTCHAs.AddAsync(result.CAPTCHA);
             await _dbContext.SaveChangesAsync();
 
-            Response.Headers.Append("x-captcha-id", m.CAPTCHA.Id);
+            Response.Headers.Append(Headers.XCaptchaId, result.CAPTCHA.Id);
 
-            var file = File(m.CAPTCHA.GetImageBytes(), MimeTypes.Png);
+            var file = File(result.CAPTCHA.GetImageBytes(), MimeTypes.Png);
 
             return file;
         }
@@ -34,16 +34,16 @@ namespace CAPTCHA.API.Controllers
         public async Task<IActionResult> Post([FromBody] ValidateRocketCaptchaDto dto)
         {
             var captcha = await _dbContext.RocketCAPTCHAs.FindAsync(dto.Id);
-            if (captcha is null) return NotFound("CAPTCHA_NOT_FOUND");
-            if (captcha.IsUsed) return BadRequest("CAPTCHA_USED");
+            if (captcha is null) return NotFound(Codes.NOT_FOUND);
+            if (captcha.IsUsed) return BadRequest(Codes.USED);
 
             var matrix = JsonSerializer.Deserialize<List<List<int>>>(captcha.MatrixAsJSON);
-            if (matrix is null) return BadRequest("CAPTCHA_ISSUE");
+            if (matrix is null) return BadRequest(Codes.INTERNAL_CAPTCHA_ISSUE);
 
             var (row, col) = RocketCAPTCHAService.FindRocketPosition(matrix);
 
             var answerIsCorr = RocketCAPTCHAService.CanMovesReachGoal(dto.Answer, matrix, col, row);
-            if (!answerIsCorr) return BadRequest("WRONG_MOVES");
+            if (!answerIsCorr) return BadRequest(Codes.WRONG_ANSWER);
             captcha.IsUsed = true;
             _dbContext.RocketCAPTCHAs.Update(captcha);
             await _dbContext.SaveChangesAsync();
