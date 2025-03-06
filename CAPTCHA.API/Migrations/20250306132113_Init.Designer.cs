@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CAPTCHA.API.Migrations
 {
     [DbContext(typeof(CAPTCHADbContext))]
-    [Migration("20250219093420_Init")]
+    [Migration("20250306132113_Init")]
     partial class Init
     {
         /// <inheritdoc />

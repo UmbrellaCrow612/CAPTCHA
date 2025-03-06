@@ -4,6 +4,7 @@ import { TileCaptchaViewComponent } from './tile-captcha-view/tile-captcha-view.
 import { TextImgCaptchaViewComponent } from './text-img-captcha-view/text-img-captcha-view.component';
 import { AudioCaptchaViewComponent } from './audio-captcha-view/audio-captcha-view.component';
 import { RocketCaptchaViewComponent } from './rocket-captcha-view/rocket-captcha-view.component';
+import { NumberKeyPadViewComponent } from './number-key-pad-view/number-key-pad-view.component';
 
 export const routes: Routes = [
   {
@@ -25,6 +26,10 @@ export const routes: Routes = [
     path: 'rocket',
     title: 'Rocket captcha',
     component: RocketCaptchaViewComponent,
+  },
+  {
+    path: 'number-pad',
+    component: NumberKeyPadViewComponent,
   },
   {
     path: '',

@@ -1,5 +1,6 @@
 ﻿using CAPTCHA.API.Data;
 using CAPTCHA.API.DTOs;
+using CAPTCHA.Core;
 using CAPTCHA.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,7 +33,7 @@ namespace CAPTCHA.API.Controllers
 
             var fileResult = File(res.CAPTCHA.GetRawAudioBytes(), service.defaultOptions.AudioFileFormatOverTheWire, fileName);
 
-            Response.Headers["X-Captcha-Id"] = res.CAPTCHA.Id;
+            Response.Headers[Headers.XCaptchaId] = res.CAPTCHA.Id;
 
             return fileResult;
         }
@@ -41,17 +42,17 @@ namespace CAPTCHA.API.Controllers
         public async Task<IActionResult> Post([FromBody] ValidateAudioCAPTCHAAnswer dto)
         {
             var captcha = await _dbContext.AudioCAPTCHAs.FindAsync(dto.Id);
-            if (captcha is null) return BadRequest(CreateErrorResponse("NOT_FOUND"));
+            if (captcha is null) return BadRequest(CreateErrorResponse(Codes.NOT_FOUND));
 
             var a = captcha.Attempts;
-            if (DateTime.UtcNow > captcha.ExpiresAt) return BadRequest(CreateErrorResponse("EXPIRED"));
-            if (a++ > captcha.GetMaxAttempts()) return BadRequest(CreateErrorResponse("MAX_ATTEMPTS"));
-            if (captcha.IsUsed || captcha.UsedAt.HasValue) return BadRequest(CreateErrorResponse("USED"));
+            if (DateTime.UtcNow > captcha.ExpiresAt) return BadRequest(CreateErrorResponse(Codes.EXPIRED));
+            if (a++ > captcha.GetMaxAttempts()) return BadRequest(CreateErrorResponse(Codes.MAX_ATTEMPTS));
+            if (captcha.IsUsed || captcha.UsedAt.HasValue) return BadRequest(CreateErrorResponse(Codes.USED));
             if (!string.Equals(dto.Answer, captcha.AnswerInPlainText))
             {
                 captcha.Attempts += 1;
                 await _dbContext.SaveChangesAsync();
-                return BadRequest(CreateErrorResponse("TEXT_DOSE_NOT_MATCH"));
+                return BadRequest(CreateErrorResponse(Codes.WRONG_ANSWER));
             }
 
             captcha.Attempts += 1;

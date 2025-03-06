@@ -1,6 +1,5 @@
 ﻿using CAPTCHA.Core.Models;
 using CAPTCHA.Core.Options;
-using System.Collections.Generic;
 using System.Text.Json;
 
 namespace CAPTCHA.Core.Services
